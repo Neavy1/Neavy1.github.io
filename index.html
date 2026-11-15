@@ -48,6 +48,10 @@
 <main>
 
 <section class="hero" id="inicio">
+  <div class="hero__globe" aria-hidden="true">
+    <canvas id="globe"></canvas>
+    <span class="hero__globe-hint">arrastra para girar</span>
+  </div>
   <p class="eyebrow reveal">Bitácora de viaje · Buga, Colombia → remoto</p>
   <h1 class="hero__title" data-split>Convierto lo repetitivo en <em>software</em> que trabaja por ti.</h1>
   <p class="hero__lead reveal">Soy <strong>Neavy</strong>, ingeniero de software. Frontend, automatización e IA aplicada.
@@ -228,6 +232,25 @@
       <h3>IA aplicada a tu contexto</h3>
       <p>Un asistente hecho a tu medida, como MiIA: conoce tu trabajo, propone y ejecuta con tus decisiones. Con cuidado por la privacidad de tus datos.</p>
     </article>
+  </div>
+
+  <div class="builder reveal" id="builder">
+    <div class="builder__stage" id="stage" aria-hidden="true">
+      <div class="builder__scene" id="scene"></div>
+      <span class="builder__hint">arrastra para girar</span>
+    </div>
+    <div class="builder__panel">
+      <p class="eyebrow">Arma tu proyecto</p>
+      <h3>Elige las piezas y míralo <em>tomar forma</em>.</h3>
+      <div class="builder__opts" role="group" aria-label="Piezas del proyecto">
+        <button type="button" class="opt" data-piece="ui" aria-pressed="true" style="--tone:var(--calima)">Interfaz web</button>
+        <button type="button" class="opt" data-piece="auto" aria-pressed="false" style="--tone:var(--guayacan)">Automatización</button>
+        <button type="button" class="opt" data-piece="ia" aria-pressed="true" style="--tone:var(--coral)">Asistente con IA</button>
+        <button type="button" class="opt" data-piece="data" aria-pressed="false" style="--tone:var(--orquidea)">Datos y reportes</button>
+      </div>
+      <p class="builder__out" id="builderOut" aria-live="polite"></p>
+      <a class="btn btn--sun magnetic" id="builderCta" href="mailto:neabyop@gmail.com">Pedir esta propuesta</a>
+    </div>
   </div>
 
   <ol class="method">

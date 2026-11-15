@@ -212,4 +212,213 @@
       el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump');
     }, 2600);
   }
+
+  /* ---- 3D: tarjetas de proyecto que giran hacia el cursor ---- */
+  if (!calm && matchMedia('(hover: hover)').matches) {
+    $$('.card').forEach(c => {
+      c.addEventListener('pointermove', e => {
+        const r = c.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        c.style.transition = 'transform .12s, border-color .4s';
+        c.style.transform = `translateY(-8px) rotateY(${(x - .5) * 12}deg) rotateX(${(.5 - y) * 10}deg)`;
+        c.style.setProperty('--gx', `${x * 100}%`); c.style.setProperty('--gy', `${y * 100}%`);
+        c.classList.add('lit');
+      });
+      c.addEventListener('pointerleave', () => { c.style.transition = ''; c.style.transform = ''; c.classList.remove('lit'); });
+    });
+  }
+
+  /* ---- 3D: globo del inicio (lienzo 2D con proyección propia, sin librerías) ---- */
+  const globe = $('#globe');
+  if (globe) {
+    const g = globe.getContext('2d');
+    const RAD = Math.PI / 180;
+    // Tierra aproximada por franjas de 10° de latitud: [latitud central, [lon inicial, lon final]...]
+    const LAND = [
+      [75, [-120, -80], [-60, -20], [80, 110]],
+      [65, [-165, -60], [-52, -38], [-23, -14], [5, 180]],
+      [55, [-132, -60], [-9, 1], [8, 160]],
+      [45, [-124, -64], [-5, 140]],
+      [35, [-121, -76], [-6, 11], [27, 120], [135, 141]],
+      [25, [-112, -98], [-15, 35], [38, 58], [67, 91], [98, 120]],
+      [15, [-104, -84], [-17, 40], [43, 51], [74, 82], [95, 108], [120, 124]],
+      [5, [-78, -52], [-9, 46], [98, 104], [110, 118]],
+      [-5, [-80, -36], [10, 40], [100, 105], [110, 120], [133, 150]],
+      [-15, [-76, -39], [12, 40], [45, 50], [125, 145]],
+      [-25, [-70, -42], [15, 35], [44, 47], [114, 152]],
+      [-35, [-72, -55], [18, 27], [116, 123], [135, 150]],
+      [-45, [-74, -66], [168, 174]],
+      [-55, [-72, -66]]
+    ];
+    const isLand = (lat, lon) => {
+      const band = LAND.find(b => Math.abs(lat - b[0]) <= 5);
+      return !!band && band.slice(1).some(([a, b]) => lon >= a && lon <= b);
+    };
+    const vec = (lat, lon) => {
+      const f = lat * RAD, l = lon * RAD;
+      return [Math.cos(f) * Math.sin(l), Math.sin(f), Math.cos(f) * Math.cos(l)];
+    };
+    // Puntos repartidos de forma pareja sobre la esfera (espiral de Fibonacci)
+    const N = 5200, pts = [];
+    for (let i = 0; i < N; i++) {
+      const y = 1 - 2 * (i + .5) / N, r = Math.sqrt(1 - y * y), th = i * 2.399963;
+      const x = Math.cos(th) * r, z = Math.sin(th) * r;
+      const land = isLand(Math.asin(y) / RAD, Math.atan2(x, z) / RAD);
+      if (land || i % 7 === 0) pts.push([x, y, z, land]);
+    }
+    const HOME = vec(3.9, -76.3); // Buga
+    const DEST = [[40.4, -3.7], [40.7, -74], [52.5, 13.4], [19.4, -99.1], [37.8, -122.4], [-33.4, -70.6]].map(([la, lo]) => vec(la, lo));
+    const ARCS = DEST.map((b, k) => {
+      const w = Math.acos(clamp(HOME[0] * b[0] + HOME[1] * b[1] + HOME[2] * b[2], -1, 1)), s = Math.sin(w), path = [];
+      for (let i = 0; i <= 40; i++) {
+        const t = i / 40, ka = Math.sin((1 - t) * w) / s, kb = Math.sin(t * w) / s, lift = 1 + .22 * Math.sin(Math.PI * t) * Math.min(1, w);
+        path.push([(HOME[0] * ka + b[0] * kb) * lift, (HOME[1] * ka + b[1] * kb) * lift, (HOME[2] * ka + b[2] * kb) * lift]);
+      }
+      return { path, off: k * .37 };
+    });
+    let size = 0, R = 0, rot = 76.3 * RAD - .35, tilt = .32, vel = 0, drag = null, visible = true, t0 = performance.now();
+    const fit = () => {
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      size = globe.clientWidth; R = size * .4;
+      globe.width = globe.height = Math.round(size * dpr);
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    const proj = p => {
+      const cr = Math.cos(rot), sr = Math.sin(rot), ct = Math.cos(tilt), st = Math.sin(tilt);
+      const x = p[0] * cr + p[2] * sr, z = p[2] * cr - p[0] * sr;
+      return [size / 2 + x * R, size / 2 - (p[1] * ct - z * st) * R, p[1] * st + z * ct];
+    };
+    function draw(now) {
+      const time = (now - t0) / 1000, c = size / 2;
+      g.clearRect(0, 0, size, size);
+      const halo = g.createRadialGradient(c, c, R * .7, c, c, R * 1.28);
+      halo.addColorStop(0, 'rgba(46,196,182,.16)'); halo.addColorStop(1, 'rgba(46,196,182,0)');
+      g.fillStyle = halo; g.beginPath(); g.arc(c, c, R * 1.28, 0, 6.283); g.fill();
+      const body = g.createRadialGradient(c - R * .35, c - R * .4, R * .1, c, c, R);
+      body.addColorStop(0, 'rgba(27,31,75,.85)'); body.addColorStop(1, 'rgba(7,10,22,.85)');
+      g.fillStyle = body; g.beginPath(); g.arc(c, c, R, 0, 6.283); g.fill();
+      g.strokeStyle = 'rgba(46,196,182,.35)'; g.lineWidth = 1; g.stroke();
+      for (const p of pts) {
+        const [x, y, z] = proj(p);
+        if (z <= 0) continue;
+        g.globalAlpha = p[3] ? .25 + z * .75 : .1 + z * .12;
+        g.fillStyle = p[3] ? '#F4EFE6' : '#2EC4B6';
+        const s = p[3] ? .7 + z * .9 : .6;
+        g.fillRect(x - s / 2, y - s / 2, s, s);
+      }
+      // Rutas desde Buga: una estela que viaja por cada arco
+      g.lineCap = 'round';
+      for (const a of ARCS) {
+        const head = (time * .22 + a.off) % 1.5;
+        let prev = proj(a.path[0]);
+        for (let i = 1; i < a.path.length; i++) {
+          const cur = proj(a.path[i]), t = i / (a.path.length - 1);
+          if (cur[2] > -.05 && prev[2] > -.05) {
+            const trail = t <= head ? Math.max(0, 1 - (head - t) * 2.4) : 0;
+            g.globalAlpha = .13 + trail * .85;
+            g.strokeStyle = trail > .02 ? '#FFC145' : '#2EC4B6';
+            g.lineWidth = 1 + trail * 1.6;
+            g.beginPath(); g.moveTo(prev[0], prev[1]); g.lineTo(cur[0], cur[1]); g.stroke();
+          }
+          prev = cur;
+        }
+        const end = proj(a.path[a.path.length - 1]);
+        if (end[2] > 0) {
+          const arrive = clamp(1 - Math.abs(head - 1) * 3);
+          g.globalAlpha = .5 + arrive * .5; g.fillStyle = '#FFC145';
+          g.beginPath(); g.arc(end[0], end[1], 2 + arrive * 2.5, 0, 6.283); g.fill();
+        }
+      }
+      // Buga: el punto de partida
+      const h = proj(HOME);
+      if (h[2] > 0) {
+        const pulse = (time * .8) % 1;
+        g.globalAlpha = (1 - pulse) * .8; g.strokeStyle = '#FF6B57'; g.lineWidth = 1.5;
+        g.beginPath(); g.arc(h[0], h[1], 4 + pulse * 16, 0, 6.283); g.stroke();
+        g.globalAlpha = 1; g.fillStyle = '#FF6B57';
+        g.beginPath(); g.arc(h[0], h[1], 4, 0, 6.283); g.fill();
+        g.font = '600 11px "JetBrains Mono", monospace'; g.fillStyle = '#F4EFE6';
+        g.fillText('Buga', h[0] + 10, h[1] - 8);
+      }
+      g.globalAlpha = 1;
+    }
+    function spin(now) {
+      if (visible) {
+        if (!drag) { rot += .0016 + vel; vel *= .94; }
+        draw(now);
+      }
+      requestAnimationFrame(spin);
+    }
+    globe.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY }; vel = 0; globe.classList.add('dragging'); globe.setPointerCapture(e.pointerId); });
+    globe.addEventListener('pointermove', e => {
+      if (!drag) return;
+      const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+      rot += dx * .006; vel = dx * .0012; tilt = clamp(tilt + dy * .004, -.5, .9);
+      drag = { x: e.clientX, y: e.clientY };
+      if (calm) draw(performance.now());
+    });
+    const drop = () => { drag = null; globe.classList.remove('dragging'); };
+    globe.addEventListener('pointerup', drop); globe.addEventListener('pointercancel', drop);
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(globe);
+    addEventListener('resize', () => { fit(); draw(performance.now()); });
+    fit();
+    if (calm) draw(t0); else requestAnimationFrame(spin);
+  }
+
+  /* ---- 3D: armador de proyectos (bloques en CSS 3D) ---- */
+  const scene = $('#scene'), stage = $('#stage');
+  if (scene) {
+    const PIECES = {
+      ui: ['Interfaz web', 'pantallas rápidas y claras, en celular y computador'],
+      auto: ['Automatización', 'lo repetitivo hecho solo, con avisos cuando algo cambia'],
+      ia: ['Asistente con IA', 'un asistente que conoce tu trabajo y ejecuta con tus decisiones'],
+      data: ['Datos y reportes', 'números claros para decidir sin suposiciones']
+    };
+    const opts = $$('.opt'), out = $('#builderOut'), cta = $('#builderCta');
+    const slab = (label, tone, cls = '') => {
+      const s = document.createElement('div'); s.className = `slab ${cls}`;
+      if (tone) s.style.setProperty('--tone', tone);
+      for (let i = 0; i < 6; i++) { const f = document.createElement('i'); if (i < 4) f.textContent = label; s.append(f); }
+      scene.append(s); return s;
+    };
+    slab('tu contexto', '', 'slab--base');
+    const slabs = Object.fromEntries(opts.map(o => [o.dataset.piece, slab(PIECES[o.dataset.piece][0], getComputedStyle(o).getPropertyValue('--tone'), 'off')]));
+    const refresh = () => {
+      const on = opts.filter(o => o.getAttribute('aria-pressed') === 'true').map(o => o.dataset.piece);
+      opts.forEach(o => {
+        const s = slabs[o.dataset.piece], i = on.indexOf(o.dataset.piece);
+        s.classList.toggle('off', i < 0);
+        if (i >= 0) s.style.setProperty('--y', i + 1);
+      });
+      scene.style.setProperty('--n', on.length);
+      const names = on.map(k => PIECES[k][0]);
+      out.innerHTML = '';
+      if (!on.length) {
+        out.textContent = 'Elige al menos una pieza para ver tu proyecto.';
+        cta.href = 'mailto:neabyop@gmail.com?subject=' + encodeURIComponent('Hablemos de un proyecto');
+        return;
+      }
+      const b = document.createElement('strong'); b.textContent = 'Tu proyecto: ' + names.join(' + ') + '.';
+      const sm = document.createElement('small'); sm.textContent = 'Incluye ' + on.map(k => PIECES[k][1]).join('; ') + '. Empieza con una entrevista corta para entender tu contexto.';
+      out.append(b, sm);
+      cta.href = 'mailto:neabyop@gmail.com?subject=' + encodeURIComponent('Proyecto: ' + names.join(' + ')) +
+        '&body=' + encodeURIComponent('Hola, Neavy. Me interesa un proyecto con: ' + names.join(', ') + '.\n\nMi contexto: ');
+    };
+    opts.forEach(o => o.addEventListener('click', () => {
+      o.setAttribute('aria-pressed', o.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); refresh();
+    }));
+    refresh();
+    let ry = 35, sv = 0, sd = null, seenStage = false;
+    const turn = () => scene.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+    stage.addEventListener('pointerdown', e => { sd = e.clientX; sv = 0; stage.classList.add('dragging'); stage.setPointerCapture(e.pointerId); });
+    stage.addEventListener('pointermove', e => { if (sd === null) return; const dx = e.clientX - sd; ry += dx * .5; sv = dx * .1; sd = e.clientX; turn(); });
+    const sdrop = () => { sd = null; stage.classList.remove('dragging'); };
+    stage.addEventListener('pointerup', sdrop); stage.addEventListener('pointercancel', sdrop);
+    new IntersectionObserver(([e]) => { seenStage = e.isIntersecting; }).observe(stage);
+    turn();
+    if (!calm) (function loop() {
+      if (seenStage && sd === null) { ry += .18 + sv; sv *= .94; turn(); }
+      requestAnimationFrame(loop);
+    })();
+  }
 })();
