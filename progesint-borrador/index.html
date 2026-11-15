@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Progesint · Insolvencia de persona natural</title>
+<meta name="description" content="Progesint: asesoría legal en insolvencia de persona natural. Revisa de forma orientativa si podrías acogerte y agenda tu primera consulta.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..600&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#inicio" aria-label="Progesint, inicio">
+    <!-- Logo provisional redibujado a partir del perfil público; reemplazar por el archivo original -->
+    <svg viewBox="0 0 48 48" width="38" height="38" aria-hidden="true">
+      <rect x="6" y="20" width="14" height="22" rx="2" fill="#F4B63F"/>
+      <path d="M6 8h22l-8 10H6z" fill="#2F8F83"/>
+      <path d="M24 8h4a15 15 0 0 1 0 30h-4v-9h4a6 6 0 0 0 0-12h-4z" fill="#1F2F6B"/>
+    </svg>
+    <span>Progesint</span>
+  </a>
+  <nav class="nav__links" aria-label="Secciones">
+    <a href="#como">Cómo funciona</a>
+    <a href="#revisa">Revisa tu caso</a>
+    <a href="#servicios">Qué más hacemos</a>
+    <a class="nav__cta" href="#consulta">Agenda tu consulta</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="hero" id="inicio">
+  <div class="hero__text">
+    <p class="eyebrow reveal">Insolvencia de persona natural · Colombia</p>
+    <h1 class="reveal">Cuando las deudas ya no caben en tu mes, hay un <em>camino legal</em> para ordenarlas.</h1>
+    <p class="lead reveal">La ley colombiana permite a una persona natural negociar todas sus deudas en un solo trámite, con acompañamiento de un abogado. En Progesint revisamos tu caso y te decimos con claridad si este camino es para ti.</p>
+    <div class="actions reveal">
+      <a class="btn btn--main" href="#revisa">Revisa tu caso en 1 minuto</a>
+      <a class="btn btn--line" href="#consulta">Agenda tu primera consulta</a>
+    </div>
+    <p class="fine reveal">Primera consulta sin costo. Información orientativa: cada caso se estudia de forma individual.</p>
+  </div>
+
+  <div class="stage" id="stage" aria-hidden="true">
+    <div class="scene" id="scene"></div>
+    <div class="stage__switch">
+      <button type="button" id="swBefore" class="on">Hoy</button>
+      <button type="button" id="swAfter">Con un acuerdo</button>
+    </div>
+  </div>
+</section>
+
+<section class="section signs" id="senales">
+  <header class="head">
+    <p class="eyebrow reveal">¿Te suena conocido?</p>
+    <h2 class="reveal">Señales de que vale la pena <em>revisar tu caso</em>.</h2>
+  </header>
+  <div class="signs__grid">
+    <article class="sign tilt reveal"><span>01</span><h3>Pagas una deuda con otra</h3><p>Usas una tarjeta o un crédito nuevo para cubrir la cuota del anterior.</p></article>
+    <article class="sign tilt reveal"><span>02</span><h3>Llevas meses en mora</h3><p>Tienes cuotas vencidas hace más de tres meses con dos o más acreedores.</p></article>
+    <article class="sign tilt reveal"><span>03</span><h3>Te están cobrando por vía judicial</h3><p>Ya hay procesos de cobro en tu contra o te anunciaron un embargo.</p></article>
+    <article class="sign tilt reveal"><span>04</span><h3>Las llamadas no paran</h3><p>Los cobros te quitan la tranquilidad y no ves cómo ponerte al día.</p></article>
+  </div>
+</section>
+
+<section class="section how" id="como">
+  <header class="head">
+    <p class="eyebrow reveal">Cómo funciona</p>
+    <h2 class="reveal">Un trámite, <em>paso a paso</em>, contigo informado en cada uno.</h2>
+  </header>
+  <ol class="steps" id="steps">
+    <li class="step reveal"><b>1</b><div><h3>Primera consulta</h3><p>Escuchamos tu situación y revisamos si cumples los requisitos que pide la ley. Sin costo.</p></div></li>
+    <li class="step reveal"><b>2</b><div><h3>Organizamos tus documentos</h3><p>Reunimos la relación de tus deudas y acreedores, tus bienes, tus ingresos y tus gastos.</p></div></li>
+    <li class="step reveal"><b>3</b><div><h3>Presentamos la solicitud</h3><p>Se radica ante un centro de conciliación o una notaría autorizados para este trámite.</p></div></li>
+    <li class="step reveal"><b>4</b><div><h3>Negociamos con tus acreedores</h3><p>En audiencia se propone una forma de pago acorde con lo que de verdad puedes pagar.</p></div></li>
+    <li class="step reveal"><b>5</b><div><h3>Acuerdo y seguimiento</h3><p>Si hay acuerdo, queda por escrito y te acompañamos en su cumplimiento. Si no lo hay, te explicamos los caminos que prevé la ley.</p></div></li>
+  </ol>
+</section>
+
+<section class="section check" id="revisa">
+  <div class="check__card">
+    <div class="check__intro">
+      <p class="eyebrow">Revisa tu caso</p>
+      <h2>¿Podrías <em>acogerte</em>?</h2>
+      <p>Responde cinco preguntas. El resultado es orientativo y no reemplaza la revisión de un abogado. No guardamos tus respuestas: se quedan en tu dispositivo.</p>
+      <div class="gauge" aria-hidden="true">
+        <div class="gauge__ring" id="ring"><div class="gauge__core"><b id="ringN">0</b><span>de 4 requisitos</span></div></div>
+      </div>
+    </div>
+    <form class="check__form" id="checkForm" novalidate>
+      <fieldset>
+        <legend>1. ¿Tus deudas están a tu nombre como persona (no de una empresa)?</legend>
+        <label class="pick"><input type="radio" name="natural" value="si"><span>Sí</span></label>
+        <label class="pick"><input type="radio" name="natural" value="no"><span>No</span></label>
+      </fieldset>
+      <fieldset>
+        <legend>2. ¿Con cuántos acreedores llevas más de 90 días en mora?</legend>
+        <label class="pick"><input type="radio" name="acreedores" value="0"><span>Ninguno</span></label>
+        <label class="pick"><input type="radio" name="acreedores" value="1"><span>Uno</span></label>
+        <label class="pick"><input type="radio" name="acreedores" value="2"><span>Dos o más</span></label>
+      </fieldset>
+      <fieldset>
+        <legend>3. ¿Cuántos procesos de cobro judicial tienes en tu contra?</legend>
+        <label class="pick"><input type="radio" name="procesos" value="0"><span>Ninguno</span></label>
+        <label class="pick"><input type="radio" name="procesos" value="1"><span>Uno</span></label>
+        <label class="pick"><input type="radio" name="procesos" value="2"><span>Dos o más</span></label>
+      </fieldset>
+      <fieldset class="money">
+        <legend>4. ¿Cuánto debes en total, aproximadamente?</legend>
+        <label><span class="sr">Total de tus deudas en pesos</span><input type="text" inputmode="numeric" id="total" placeholder="Ej. 40.000.000" autocomplete="off"></label>
+      </fieldset>
+      <fieldset class="money">
+        <legend>5. De ese total, ¿cuánto está en mora?</legend>
+        <label><span class="sr">Deudas en mora en pesos</span><input type="text" inputmode="numeric" id="mora" placeholder="Ej. 18.000.000" autocomplete="off"></label>
+      </fieldset>
+      <button class="btn btn--main" type="submit">Ver resultado orientativo</button>
+      <div class="result" id="result" role="status" aria-live="polite" hidden></div>
+    </form>
+  </div>
+</section>
+
+<section class="section services" id="servicios">
+  <header class="head">
+    <p class="eyebrow reveal">Qué más hacemos</p>
+    <h2 class="reveal">Progesint te acompaña en <em>tres frentes</em>.</h2>
+  </header>
+  <div class="flips">
+    <article class="flip reveal" tabindex="0">
+      <div class="flip__in">
+        <div class="flip__face flip__front" style="--tone:var(--teal)"><span>01</span><h3>Insolvencia de persona natural</h3><p>Ordena tus deudas en un solo trámite.</p><i>Ver más</i></div>
+        <div class="flip__face flip__back" style="--tone:var(--teal)"><h3>Insolvencia</h3><p>Revisión de requisitos, preparación de la solicitud, acompañamiento en la negociación con acreedores y seguimiento del acuerdo.</p><a href="#revisa">Revisa tu caso</a></div>
+      </div>
+    </article>
+    <article class="flip reveal" tabindex="0">
+      <div class="flip__in">
+        <div class="flip__face flip__front" style="--tone:var(--navy)"><span>02</span><h3>Derecho laboral</h3><p>Para trabajadores y para empleadores.</p><i>Ver más</i></div>
+        <div class="flip__face flip__back" style="--tone:var(--navy)"><h3>Derecho laboral</h3><p>Orientación sobre contratos, terminaciones, incapacidades, licencias y obligaciones del empleador.</p><a href="#consulta">Cuéntanos tu caso</a></div>
+      </div>
+    </article>
+    <article class="flip reveal" tabindex="0">
+      <div class="flip__in">
+        <div class="flip__face flip__front" style="--tone:var(--amber)"><span>03</span><h3>Fraudes bancarios</h3><p>Cuando sacan dinero de tu cuenta sin tu permiso.</p><i>Ver más</i></div>
+        <div class="flip__face flip__back" style="--tone:var(--amber)"><h3>Fraudes bancarios</h3><p>Acompañamiento en la reclamación ante la entidad financiera y en las acciones legales que correspondan.</p><a href="#consulta">Cuéntanos tu caso</a></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="section contact" id="consulta">
+  <div class="contact__grid">
+    <div>
+      <p class="eyebrow reveal">Primera consulta sin costo</p>
+      <h2 class="reveal">Cuéntanos tu caso y te <em>respondemos</em> por WhatsApp.</h2>
+      <p class="reveal">Al enviar, se abre WhatsApp con tu mensaje listo para Progesint. Tú decides si lo envías.</p>
+      <p class="phone reveal"><a href="https://wa.me/573150682528" target="_blank" rel="noopener">315 068 2528</a></p>
+    </div>
+    <form class="form reveal" id="leadForm" novalidate>
+      <label>Tu nombre<input type="text" name="nombre" autocomplete="name" required></label>
+      <label>Ciudad<input type="text" name="ciudad" autocomplete="address-level2" required></label>
+      <label>¿En qué te podemos ayudar?
+        <select name="tema">
+          <option>Insolvencia de persona natural</option>
+          <option>Derecho laboral</option>
+          <option>Fraude bancario</option>
+        </select>
+      </label>
+      <label>Cuéntanos en pocas palabras<textarea name="mensaje" rows="3" maxlength="400"></textarea></label>
+      <label class="consent"><input type="checkbox" name="acepto" required><span>Autorizo el tratamiento de mis datos para ser contactado, según el <a href="#datos">aviso de privacidad</a>.</span></label>
+      <p class="form__error" id="formError" role="alert" hidden></p>
+      <button class="btn btn--main" type="submit">Enviar por WhatsApp</button>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot" id="datos">
+  <div>
+    <strong>Progesint</strong>
+    <p>Asesoría legal en derecho laboral, insolvencia de persona natural y fraudes bancarios.</p>
+  </div>
+  <div>
+    <strong>Aviso de privacidad</strong>
+    <p>Los datos que escribes en el formulario se usan solo para responder tu consulta y viajan por WhatsApp cuando tú los envías; este sitio no los guarda. Puedes pedir que se actualicen o eliminen escribiendo al mismo número.</p>
+  </div>
+  <div>
+    <strong>Aviso legal</strong>
+    <p>La información de este sitio es general y orientativa; no es asesoría jurídica ni garantiza un resultado. Cada caso se estudia de forma individual.</p>
+  </div>
+</footer>
+
+<p class="draft" role="note">Borrador en revisión · textos sin aprobar · no es la página oficial</p>
+
+<script src="main.js" defer></script>
+</body>
+</html>
