@@ -309,5 +309,5 @@ p { color: var(--bruma); }
 @media (max-width: 820px) {
   .builder__hint { bottom: auto; top: 8px; white-space: nowrap; }
 }
-@media (max-height: 760px) { .hero__scroll { display: none; } }
+@media (max-height: 900px) { .hero__scroll { display: none; } }
 @media (min-width: 821px) and (max-width: 1100px) { .hero__globe { opacity: .6; right: -6vw; } }
