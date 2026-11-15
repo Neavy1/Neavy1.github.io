@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neavy · Ingeniero de software</title>
+<meta name="description" content="Portafolio de Neavy: frontend, automatización e IA aplicada. Un viaje de la noche al amanecer por sus proyectos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Cielo fijo: va de la noche al amanecer según el avance del viaje -->
+<div class="sky" aria-hidden="true">
+  <div class="sky__dawn"></div>
+  <canvas class="sky__stars" id="stars"></canvas>
+  <div class="sky__sun" id="sun"></div>
+  <svg class="sky__range sky__range--far" viewBox="0 0 1440 220" preserveAspectRatio="none"><path d="M0 220V140l90-50 110 60 130-95 120 80 150-110 140 95 120-60 160 85 130-70 150 60 140-45v130z"/></svg>
+  <svg class="sky__range sky__range--near" viewBox="0 0 1440 220" preserveAspectRatio="none"><path d="M0 220V170l140-60 120 50 170-80 150 70 130-40 180 75 160-65 150 45 140-30 100 25v110z"/></svg>
+</div>
+<div class="cursor-glow" id="glow" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="#inicio" aria-label="Neavy, inicio">
+    <svg viewBox="0 0 28 32" width="26" height="30" aria-hidden="true">
+      <defs><linearGradient id="lg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#2EC4B6"/><stop offset="1" stop-color="#FFC145"/></linearGradient></defs>
+      <polyline points="4,28 4,5 24,28 24,6" fill="none" stroke="url(#lg)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="24" cy="5" r="3.2" fill="#FF6B57"/>
+    </svg>
+    <span>neavy</span>
+  </a>
+  <nav class="nav__links" aria-label="Secciones">
+    <a href="#travesia">Travesía</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="#ofrezco">Qué ofrezco</a>
+    <a class="nav__cta" href="#contacto">Trabajemos juntos</a>
+  </nav>
+</header>
+
+<aside class="odometer" aria-hidden="true">
+  <span class="odometer__label" id="odoLabel">Noche</span>
+  <div class="odometer__track"><div class="odometer__fill" id="odoFill"></div></div>
+  <span class="odometer__km"><b id="odoKm">0</b> %</span>
+</aside>
+
+<main>
+
+<section class="hero" id="inicio">
+  <p class="eyebrow reveal">Bitácora de viaje · Buga, Colombia → remoto</p>
+  <h1 class="hero__title" data-split>Convierto lo repetitivo en <em>software</em> que trabaja por ti.</h1>
+  <p class="hero__lead reveal">Soy <strong>Neavy</strong>, ingeniero de software. Frontend, automatización e IA aplicada.
+    Esta página es un viaje: empieza de noche, con las primeras líneas de código, y termina al amanecer, con lo que podemos construir juntos.</p>
+  <div class="hero__actions reveal">
+    <a class="btn btn--sun magnetic" href="#travesia">Empezar el viaje</a>
+    <a class="btn btn--ghost magnetic" href="#proyectos">Ir a los proyectos</a>
+  </div>
+  <div class="hero__scroll" aria-hidden="true"><span></span>desliza</div>
+</section>
+
+<section class="section travesia" id="travesia">
+  <header class="section__head">
+    <p class="eyebrow reveal">01 · La travesía</p>
+    <h2 class="reveal">Cada parada me <em>enseñó</em> algo que hoy uso.</h2>
+  </header>
+
+  <div class="route" id="route">
+    <svg class="route__svg" id="routeSvg" aria-hidden="true">
+      <path id="routeBase" class="route__base"/>
+      <path id="routeLine" class="route__line" stroke="#FFC145"/>
+      <circle id="routeDot" class="route__dot" r="7"/>
+    </svg>
+
+    <article class="stop reveal">
+      <span class="stop__year">2021 — 2023</span>
+      <h3>Automatizar para ganar tiempo</h3>
+      <p>Analista de automatización. Construí sistemas internos y automaticé tareas repetitivas con Python y Power Automate, con procesos documentados y validados.</p>
+      <p class="stat"><b data-count="20" data-suffix=" %">0</b><span>menos tiempo de ejecución en los procesos</span></p>
+    </article>
+
+    <article class="stop reveal">
+      <span class="stop__year">2023 — 2024</span>
+      <h3>Productos completos, de punta a punta</h3>
+      <p>Trabajo independiente: plataformas con React y Node.js, APIs REST e interfaces responsivas. Aprendí a hablar con el cliente y a entregar algo que se usa.</p>
+      <p class="chips"><span>React</span><span>Node.js</span><span>APIs REST</span></p>
+    </article>
+
+    <article class="stop reveal">
+      <span class="stop__year">Formación en IA</span>
+      <h3>Modelos que salen del cuaderno</h3>
+      <p>Entrené y desplegué modelos de aprendizaje automático con scikit-learn, TensorFlow, Docker y APIs.</p>
+      <div class="stats">
+        <p class="stat"><b data-count="92" data-suffix=" %">0</b><span>F1 ponderado con más de 50.000 imágenes</span></p>
+        <p class="stat"><b data-count="86" data-suffix=" %">0</b><span>R² con más de 30 millones de registros</span></p>
+        <p class="stat"><b data-count="75" data-prefix="60 → " data-suffix=" %">0</b><span>AUC, antes y después</span></p>
+      </div>
+    </article>
+
+    <article class="stop reveal">
+      <span class="stop__year">2025 — hoy</span>
+      <h3>Frontend empresarial a escala</h3>
+      <p>Angular y AngularJS en una aplicación de negocio grande: corrijo errores críticos, entrego funcionalidades en sprints y migro módulos de AngularJS a Angular moderno sin tocar la lógica de negocio.</p>
+      <p class="chips"><span>Angular</span><span>TypeScript</span><span>RxJS</span><span>Equipos ágiles</span></p>
+    </article>
+
+    <article class="stop reveal">
+      <span class="stop__year">2026</span>
+      <h3>Una fábrica de software de bolsillo</h3>
+      <p>Construí a <strong>MiIA</strong>, mi asistente y segundo cerebro, y con ese método entrevisto, entiendo el contexto de una persona o negocio y le construyo su propia solución.</p>
+      <p class="chips"><span>Agentes</span><span>Automatización</span><span>Voz local</span></p>
+    </article>
+  </div>
+</section>
+
+<section class="section proyectos" id="proyectos">
+  <div class="pin" id="pin">
+    <header class="section__head section__head--pin">
+      <p class="eyebrow">02 · Paradas del camino</p>
+      <h2>Proyectos, con una <em>pequeña muestra</em> de cada uno.</h2>
+    </header>
+    <div class="track" id="track">
+
+      <article class="card" style="--tone:var(--calima)">
+        <div class="demo demo--term" data-demo="term">
+          <div class="term__bar"><i></i><i></i><i></i><span>miia</span></div>
+          <pre class="term__body" id="termBody" aria-label="Muestra: MiIA responde al comando klk"></pre>
+        </div>
+        <div class="card__text">
+          <span class="card__n">01</span>
+          <h3>MiIA</h3>
+          <p>Mi asistente de organización: lee tarjetas y agenda, resume lo urgente cada mañana, avisa por eventos y trabaja con mis decisiones. Tiene memoria, rutinas en la nube y voz propia.</p>
+          <p class="chips"><span>Agentes</span><span>Python</span><span>Rutinas</span><span>Voz local</span></p>
+        </div>
+      </article>
+
+      <article class="card" style="--tone:var(--guayacan)">
+        <div class="demo demo--doc" aria-label="Muestra: un borrador que se arma solo">
+          <div class="doc">
+            <b class="doc__tag">Borrador</b>
+            <i style="--w:70%"></i><i style="--w:92%"></i><i style="--w:85%"></i><i class="hl" style="--w:60%"></i><i style="--w:88%"></i><i style="--w:40%"></i>
+          </div>
+          <div class="doc__meter"><span></span></div>
+          <small>antecedente parecido encontrado</small>
+        </div>
+        <div class="card__text">
+          <span class="card__n">02</span>
+          <h3>Banco de Providencias</h3>
+          <p>Aplicación de escritorio para un despacho judicial: busca decisiones anteriores parecidas y propone un borrador que la persona revisa y decide. Todo corre en local, sin subir documentos a ningún servicio.</p>
+          <p class="chips"><span>Escritorio</span><span>Búsqueda local</span><span>Privacidad</span></p>
+        </div>
+      </article>
+
+      <article class="card" style="--tone:var(--coral)">
+        <div class="demo demo--inv" aria-label="Muestra: inventario con alerta de existencias">
+          <div class="bars"><i style="--h:78%"></i><i style="--h:52%"></i><i class="low" style="--h:14%"></i><i style="--h:64%"></i><i style="--h:90%"></i><i style="--h:38%"></i></div>
+          <small><b class="pulse"></b>existencias bajas en 1 artículo</small>
+        </div>
+        <div class="card__text">
+          <span class="card__n">03</span>
+          <h3>NeavyInventory</h3>
+          <p>Plataforma de inventario para varias empresas a la vez: artículos, existencias y alertas en un solo lugar.</p>
+          <p class="chips"><span>SaaS</span><span>Multiempresa</span><span>Full stack</span></p>
+        </div>
+      </article>
+
+      <article class="card" style="--tone:var(--orquidea)">
+        <div class="demo demo--wave" aria-label="Muestra: voz que se convierte en texto">
+          <div class="wave"></div>
+          <p class="wave__text">«…y así el audio se vuelve texto, sin internet.»</p>
+        </div>
+        <div class="card__text">
+          <span class="card__n">04</span>
+          <h3>Voz a texto, en local</h3>
+          <p>Aplicación Android que transcribe audio en el propio dispositivo, sin nube ni tarjeta gráfica. La misma idea le da oído y voz a MiIA.</p>
+          <p class="chips"><span>Android</span><span>Kotlin</span><span>Reconocimiento de voz</span></p>
+        </div>
+      </article>
+
+      <article class="card" style="--tone:var(--calima)">
+        <div class="demo demo--fin" aria-label="Muestra: gráfico de finanzas">
+          <svg viewBox="0 0 300 120" preserveAspectRatio="none"><path class="fin__area" d="M0 96 40 80 80 88 120 58 160 66 200 36 240 44 300 16V120H0z"/><path class="fin__line" pathLength="1" d="M0 96 40 80 80 88 120 58 160 66 200 36 240 44 300 16"/></svg>
+          <small>ahorro del mes <b>+12 %</b></small>
+        </div>
+        <div class="card__text">
+          <span class="card__n">05</span>
+          <h3>FinanzasKJ</h3>
+          <p>Finanzas personales en pareja: ingresos, gastos y metas claras, para decidir con números y no con suposiciones.</p>
+          <p class="chips"><span>Supabase</span><span>Web</span></p>
+        </div>
+      </article>
+
+      <article class="card" style="--tone:var(--guayacan)">
+        <div class="demo demo--score" aria-label="Muestra: marcador y puntos de una polla mundialista">
+          <div class="score"><span>COL</span><b id="scoreA">2</b><em>:</em><b id="scoreB">1</b><span>BRA</span></div>
+          <small>tu pronóstico acertó · <b>+3 pts</b></small>
+        </div>
+        <div class="card__text">
+          <span class="card__n">06</span>
+          <h3>Polla mundialista</h3>
+          <p>Juego de pronósticos del Mundial para una marca de ropa: los clientes participan, suman puntos y la marca gana conversación.</p>
+          <p class="chips"><span>Web</span><span>Marca</span><span>Juego</span></p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="section ofrezco" id="ofrezco">
+  <header class="section__head">
+    <p class="eyebrow reveal">03 · Lo que puedo ofrecerte</p>
+    <h2 class="reveal">Tres oficios, un mismo <em>método</em>.</h2>
+  </header>
+  <div class="offers">
+    <article class="offer tilt reveal">
+      <span class="offer__icon" style="--tone:var(--calima)">◐</span>
+      <h3>Frontend que se siente bien</h3>
+      <p>Interfaces rápidas y cuidadas con Angular, React y TypeScript. También migraciones de código antiguo sin romper lo que ya funciona.</p>
+    </article>
+    <article class="offer tilt reveal">
+      <span class="offer__icon" style="--tone:var(--guayacan)">↻</span>
+      <h3>Automatización de procesos</h3>
+      <p>Lo que hoy haces a mano cada día, hecho solo: Python, APIs, Power Automate y flujos programados que avisan cuando algo cambia.</p>
+    </article>
+    <article class="offer tilt reveal">
+      <span class="offer__icon" style="--tone:var(--coral)">✦</span>
+      <h3>IA aplicada a tu contexto</h3>
+      <p>Un asistente hecho a tu medida, como MiIA: conoce tu trabajo, propone y ejecuta con tus decisiones. Con cuidado por la privacidad de tus datos.</p>
+    </article>
+  </div>
+
+  <ol class="method">
+    <li class="reveal"><b>Escucho</b><span>Una entrevista corta para entrar en tu contexto.</span></li>
+    <li class="reveal"><b>Entiendo</b><span>Mido dónde se va el tiempo antes de proponer.</span></li>
+    <li class="reveal"><b>Propongo</b><span>Opciones claras, con costo y con lo que no incluye.</span></li>
+    <li class="reveal"><b>Construyo</b><span>Entregas pequeñas que puedes probar pronto.</span></li>
+    <li class="reveal"><b>Mido</b><span>Cada mejora con su evidencia.</span></li>
+  </ol>
+
+  <div class="marquee" aria-label="Tecnologías">
+    <div class="marquee__row">
+      <span>Angular</span><span>TypeScript</span><span>React</span><span>Node.js</span><span>Python</span><span>APIs REST</span><span>SQL</span><span>Docker</span><span>Power Automate</span><span>Airflow</span><span>scikit-learn</span><span>TensorFlow</span>
+      <span>Angular</span><span>TypeScript</span><span>React</span><span>Node.js</span><span>Python</span><span>APIs REST</span><span>SQL</span><span>Docker</span><span>Power Automate</span><span>Airflow</span><span>scikit-learn</span><span>TensorFlow</span>
+    </div>
+  </div>
+</section>
+
+<section class="section contacto" id="contacto">
+  <p class="eyebrow reveal">04 · Amanecer</p>
+  <h2 class="contacto__title" data-split>Trabajemos <em>juntos</em>.</h2>
+  <p class="contacto__lead reveal">Cuéntame qué te quita tiempo. Te respondo con una idea concreta de cómo resolverlo.</p>
+  <div class="hero__actions reveal">
+    <a class="btn btn--sun btn--big magnetic" href="mailto:neabyop@gmail.com?subject=Hablemos%20de%20un%20proyecto">Escríbeme</a>
+    <a class="btn btn--ghost magnetic" href="https://github.com/Neavy1" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <span>© 2026 Neavy · José Alejandro Salazar</span>
+  <span>Hecho a mano, con ayuda de MiIA.</span>
+</footer>
+
+<script src="main.js" defer></script>
+</body>
+</html>
